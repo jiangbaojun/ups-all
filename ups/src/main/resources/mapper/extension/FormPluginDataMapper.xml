@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.brook.ups.mapper.extension.PluginDataMapper">
+
+  <resultMap id="BaseResultMap" type="com.brook.ups.model.FormPluginData"></resultMap>
+
+  <sql id="Base_Column_List">
+    id, plugId, plugDataKey, plugDataValue
+  </sql>
+
+  <!--查询插件数据列表-->
+  <select id="selectList" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from ups_form_plugin_data
+    <trim prefix="where" prefixOverrides="and">
+      <if test="id!=null" >
+        and id = #{id,jdbcType=VARCHAR}
+      </if>
+      <if test="plugId!=null" >
+        and plugId = #{plugId,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
+
+  <!--添加插件数据-->
+  <insert id="add" parameterType="map">
+    insert into ups_form_plugin_data (<include refid="Base_Column_List" />)
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.id,jdbcType=VARCHAR}, #{plugId,jdbcType=VARCHAR},#{item.plugDataKey,jdbcType=VARCHAR},#{item.plugDataValue,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+  <!--删除插件数据-->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from ups_form_plugin_data
+    <trim prefix="where" prefixOverrides="and">
+      <if test="accountAppId!=null" >
+        and appId = #{accountAppId,jdbcType=VARCHAR}
+      </if>
+      and plugId = #{plugId,jdbcType=VARCHAR}
+    </trim>
+  </delete>
+</mapper>

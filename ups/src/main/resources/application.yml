@@ -1,0 +1,47 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /api
+spring:
+  datasource:
+    name: datasource
+    url: jdbc:mysql://127.0.0.1:3306/ups?useUnicode=true&characterEncoding=utf-8&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+  #热部署生效
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java,src/main/resources
+      exclude: WEB-INF/**
+
+#日志配置
+logging:
+  config: classpath:logback.xml
+
+mybatis:
+  #这里是mapper的配置文件
+  mapper-locations: classpath:/mapper/**/*Mapper.xml
+  #这里是实体类的包
+  type-aliases-package: com.brook.ups.model
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

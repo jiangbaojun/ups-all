@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.brook.ups.mapper.system.ApplicationMapper">
+
+  <resultMap type="com.brook.ups.model.Application" id="Application"></resultMap>
+
+  <sql id="Base_Column_List">
+    id, appName, remark, isAvailable, optName, optDate
+  </sql>
+  <sql id="Base_Column_List_explicit">
+    t.id, t.appName, t.remark, t.isAvailable, t.optName, t.optDate
+  </sql>
+
+  <!--查询应用列表-->
+  <select id="selectList" resultMap="Application" parameterType="map">
+    select
+      <include refid="Base_Column_List_explicit" />,
+      a.acName optName_name
+    from ups_application t
+      left join ups_account a
+      on t.optName = a.id
+    <trim prefix="where" prefixOverrides="and">
+      <if test="id!=null" >
+        and t.id like CONCAT(CONCAT('%', #{id,jdbcType=VARCHAR}), '%')
+      </if>
+      <if test="appName!=null" >
+        and t.appName like CONCAT(CONCAT('%', #{appName,jdbcType=VARCHAR}), '%')
+      </if>
+      <if test="accountAppId!=null" >
+        and t.id = #{accountAppId,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
+
+    <!--根据条件获得应用有效列表-->
+  <select id="getApplications" resultMap="Application" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from ups_application
+      <trim prefix="where" prefixOverrides="and">
+          <if test="id!=null" >
+              and id = #{id,jdbcType=VARCHAR}
+          </if>
+          <if test="appName!=null" >
+              and appName = #{appName,jdbcType=VARCHAR}
+          </if>
+          <if test="accountAppId!=null" >
+            and id = #{accountAppId,jdbcType=VARCHAR}
+          </if>
+          and isAvailable = 1
+      </trim>
+  </select>
+
+  <!-- 查询所有应用,是否有重名的 -->
+  <select id="getNameCount" parameterType="map" resultType="Integer">
+    select count(*)
+    from ups_application
+    where appName = #{appName,jdbcType=VARCHAR}
+  </select>
+
+  <!--添加应用-->
+  <insert id="add" parameterType="map">
+    insert into ups_application (id, appName, remark, isAvailable, optName, optDate)
+    values
+    (#{id,jdbcType=VARCHAR}, #{appName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+    #{isAvailable,jdbcType=VARCHAR}, #{optName,jdbcType=VARCHAR}, #{optDate,jdbcType=TIMESTAMP})
+  </insert>
+
+  <!--修改应用-->
+  <update id="update" parameterType="map">
+    update ups_application
+    <set >
+      <if test="appName != null" >
+        appName = #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isAvailable != null" >
+        isAvailable = #{isAvailable,jdbcType=VARCHAR},
+      </if>
+      <if test="optName != null" >
+        optName = #{optName,jdbcType=VARCHAR},
+      </if>
+      <if test="optDate != null" >
+        optDate = #{optDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--删除应用-->
+  <delete id="delete" parameterType="java.lang.String" >
+	  delete from ups_application
+    <trim prefix="where" prefixOverrides="and">
+      <if test="accountAppId!=null" >
+        and id = #{accountAppId,jdbcType=VARCHAR}
+      </if>
+      and id = #{id,jdbcType=VARCHAR}
+    </trim>
+	</delete>
+</mapper>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.brook.ups.mapper.system.AccountMapper">
+
+  <resultMap type="com.brook.ups.model.Account" id="Account"></resultMap>
+
+  <sql id="Base_Column_List">
+    id, appId, acName, password, isAdmin, isAvailable, optName, optDate
+  </sql>
+  <sql id="Base_Column_List_explicit">
+    t.id, t.appId, t.acName, t.password, t.isAdmin, t.isAvailable, t.optName, t.optDate
+  </sql>
+
+    <!--查询账户列表-->
+  <select id="selectList" resultMap="Account" parameterType="map">
+    select
+      <include refid="Base_Column_List_explicit" />,
+      a.acName optName_name
+    from ups_account t
+      left join ups_account a
+      on t.optName = a.id
+    <trim prefix="where" prefixOverrides="and">
+      <if test="appId!=null" >
+        and t.appId = #{appId,jdbcType=VARCHAR}
+      </if>
+      <if test="acName!=null" >
+        and t.acName like CONCAT(CONCAT('%', #{acName,jdbcType=VARCHAR}), '%')
+      </if>
+      <if test="isAdmin!=null" >
+        and t.isAdmin = #{isAdmin,jdbcType=VARCHAR}
+      </if>
+      <if test="accountAppId!=null" >
+        and t.appId = #{accountAppId,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
+
+  <!--根据条件获得账户-->
+  <select id="getAccounts" resultMap="Account" parameterType="map">
+    select <include refid="Base_Column_List" />
+    from ups_account
+    <trim prefix="where" prefixOverrides="and">
+      <if test="appId!=null" >
+        and appId = #{appId,jdbcType=VARCHAR}
+      </if>
+      <if test="acName!=null" >
+        and acName = #{acName,jdbcType=VARCHAR}
+      </if>
+      <if test="passwordHex!=null" >
+        and password = #{passwordHex,jdbcType=VARCHAR}
+      </if>
+      <if test="isAdmin!=null" >
+        and isAdmin = #{isAdmin,jdbcType=VARCHAR}
+      </if>
+      <if test="isAvailable!=null" >
+        and isAvailable = #{isAvailable,jdbcType=VARCHAR}
+      </if>
+      <if test="accountAppId!=null" >
+        and appId = #{accountAppId,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
+
+  <!--根据id获得账户-->
+  <select id="getAccountById" resultMap="Account" parameterType="map">
+    select <include refid="Base_Column_List" />
+    from ups_account
+    <trim prefix="where" prefixOverrides="and">
+      <if test="accountAppId!=null" >
+        and appId = #{accountAppId,jdbcType=VARCHAR}
+      </if>
+      and id = #{id,jdbcType=VARCHAR}
+    </trim>
+  </select>
+
+  <!-- 查询所有账户,是否有重名的 -->
+  <select id="getNameCount" parameterType="map" resultType="Integer">
+    select count(*)
+    from ups_account
+    where acName = #{acName,jdbcType=VARCHAR}
+  </select>
+
+  <!--添加账户-->
+  <insert id="add" parameterType="map">
+    insert into ups_account (id, appId, acName, password, isAdmin, isAvailable, optName, optDate)
+    values
+    (#{id,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, #{acName,jdbcType=VARCHAR},#{passwordHex,jdbcType=VARCHAR},
+    #{isAdmin,jdbcType=VARCHAR}, #{isAvailable,jdbcType=VARCHAR},
+    #{optName,jdbcType=VARCHAR}, #{optDate,jdbcType=TIMESTAMP})
+  </insert>
+
+  <!--修改账户-->
+  <update id="update" parameterType="map">
+    update ups_account
+    <set >
+      <if test="appId != null" >
+        appId = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="acName != null" >
+        acName = #{acName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{passwordHex,jdbcType=VARCHAR},
+      </if>
+      <if test="isAdmin != null" >
+        isAdmin = #{isAdmin,jdbcType=VARCHAR},
+      </if>
+      <if test="isAvailable != null" >
+        isAvailable = #{isAvailable,jdbcType=VARCHAR},
+      </if>
+      <if test="optName != null" >
+        optName = #{optName,jdbcType=VARCHAR},
+      </if>
+      <if test="optDate != null" >
+        optDate = #{optDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--删除账户-->
+  <delete id="delete" parameterType="java.lang.String" >
+	  delete from ups_account
+    <trim prefix="where" prefixOverrides="and">
+      <if test="accountAppId!=null" >
+        and appId = #{accountAppId,jdbcType=VARCHAR}
+      </if>
+      and id = #{id,jdbcType=VARCHAR}
+    </trim>
+	</delete>
+</mapper>

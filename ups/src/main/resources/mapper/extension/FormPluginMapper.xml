@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.brook.ups.mapper.extension.PluginMapper">
+
+  <resultMap id="BaseResultMap" type="com.brook.ups.model.FormPlugin"></resultMap>
+
+  <sql id="Base_Column_List">
+    id, appId, plugType, plugName, isAvailable, optName, optDate
+  </sql>
+  <sql id="Base_Column_List_explicit">
+    t.id, t.appId, t.plugType, t.plugName, t.isAvailable, t.optName, t.optDate
+  </sql>
+
+  <!--查询插件列表-->
+  <select id="selectList" resultMap="BaseResultMap" parameterType="map">
+    select
+      <include refid="Base_Column_List_explicit" />,
+      a.acName optName_name
+    from ups_form_plugin t
+      left join ups_account a
+      on t.optName = a.id
+    <trim prefix="where" prefixOverrides="and">
+      <if test="id!=null" >
+        and t.id = #{id,jdbcType=VARCHAR}
+      </if>
+      <if test="appId!=null" >
+        and t.appId = #{appId,jdbcType=VARCHAR}
+      </if>
+      <if test="plugName!=null" >
+        and t.plugName like CONCAT(CONCAT('%', #{plugName,jdbcType=VARCHAR}), '%')
+      </if>
+      <if test="accountAppId!=null" >
+        and t.appId = #{accountAppId,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
+
+  <!-- 根据id查找插件-->
+  <select id="getPlugInById" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from ups_form_plugin
+    <trim prefix="where" prefixOverrides="and">
+      <if test="id!=null" >
+        and id = #{id,jdbcType=VARCHAR}
+      </if>
+      <if test="accountAppId!=null" >
+        and appId = #{accountAppId,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
+
+  <!-- 查询插件引用情况TODO-->
+  <select id="getPlugInRef" resultType="map" parameterType="map">
+    select t.attrName
+    from ups_extension_attr t
+    where t.plugId = #{plugId,jdbcType=VARCHAR}
+  </select>
+
+  <!-- 根据名称查询数量 -->
+  <select id="getNameCount" parameterType="map" resultType="Integer">
+    select count(*)
+    from ups_form_plugin
+    where plugName = #{plugName,jdbcType=VARCHAR}
+  </select>
+
+  <!--添加插件-->
+  <insert id="add" parameterType="map">
+    insert into ups_form_plugin (<include refid="Base_Column_List" />)
+    values
+    (#{id,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, #{plugType,jdbcType=VARCHAR},#{plugName,jdbcType=VARCHAR},
+    #{isAvailable,jdbcType=VARCHAR}, #{optName,jdbcType=VARCHAR}, #{optDate,jdbcType=TIMESTAMP})
+  </insert>
+
+  <!--修改插件-->
+  <update id="update" parameterType="map">
+    update ups_form_plugin
+    <set >
+      <if test="appId != null" >
+        appId = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="plugType != null" >
+        plugType = #{plugType,jdbcType=VARCHAR},
+      </if>
+      <if test="plugName != null" >
+        plugName = #{plugName,jdbcType=VARCHAR},
+      </if>
+      <if test="isAvailable != null" >
+        isAvailable = #{isAvailable,jdbcType=VARCHAR},
+      </if>
+      <if test="optName != null" >
+        optName = #{optName,jdbcType=VARCHAR},
+      </if>
+      <if test="optDate != null" >
+        optDate = #{optDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--删除插件-->
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from ups_form_plugin
+    <trim prefix="where" prefixOverrides="and">
+      <if test="accountAppId!=null" >
+        and appId = #{accountAppId,jdbcType=VARCHAR}
+      </if>
+      and id = #{id,jdbcType=VARCHAR}
+    </trim>
+  </delete>
+</mapper>
