@@ -1,0 +1,11 @@
+2020-05-05 18:06:32.311 [http-nio-8888-exec-1] DEBUG c.b.u.m.s.A.getAccountById - ==>  Preparing: select id, appId, acName, password, isAdmin, isAvailable, optName, optDate from ups_account where id = ? 
+2020-05-05 18:06:32.311 [http-nio-8888-exec-1] DEBUG c.b.u.m.s.A.getAccountById - ==> Parameters: 55f58e2e039346ae8bb4c35435d5be38(String)
+2020-05-05 18:06:32.312 [http-nio-8888-exec-1] DEBUG c.b.u.m.s.A.getAccountById - <==      Total: 1
+2020-05-05 18:06:33.457 [http-nio-8888-exec-2] DEBUG c.b.u.c.v.ApiRequestMappingHandlerMapping - Mapped to public com.brook.ups.model.Account com.brook.ups.controller.system.AccountController.getAccountByToken(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2020-05-05 18:06:33.458 [http-nio-8888-exec-2] DEBUG c.b.u.m.s.A.getAccountById - ==>  Preparing: select id, appId, acName, password, isAdmin, isAvailable, optName, optDate from ups_account where id = ? 
+2020-05-05 18:06:33.458 [http-nio-8888-exec-2] DEBUG c.b.u.m.s.A.getAccountById - ==> Parameters: 55f58e2e039346ae8bb4c35435d5be38(String)
+2020-05-05 18:06:33.459 [http-nio-8888-exec-2] DEBUG c.b.u.m.s.A.getAccountById - <==      Total: 1
+2020-05-05 18:06:34.549 [http-nio-8888-exec-3] DEBUG c.b.u.c.v.ApiRequestMappingHandlerMapping - Mapped to public com.brook.ups.model.Account com.brook.ups.controller.system.AccountController.getAccountByToken(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2020-05-05 18:06:34.550 [http-nio-8888-exec-3] DEBUG c.b.u.m.s.A.getAccountById - ==>  Preparing: select id, appId, acName, password, isAdmin, isAvailable, optName, optDate from ups_account where id = ? 
+2020-05-05 18:06:34.550 [http-nio-8888-exec-3] DEBUG c.b.u.m.s.A.getAccountById - ==> Parameters: 55f58e2e039346ae8bb4c35435d5be38(String)
+2020-05-05 18:06:34.551 [http-nio-8888-exec-3] DEBUG c.b.u.m.s.A.getAccountById - <==      Total: 1

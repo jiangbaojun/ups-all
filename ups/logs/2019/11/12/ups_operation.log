@@ -1,0 +1,5 @@
+2019-11-12 09:10:15.704 [Test worker] INFO  c.b.u.UpsApplicationTests - Starting UpsApplicationTests on DESKTOP-BKH0UGM with PID 63968 (started by jiangbaojun in D:\myProject\ideaPro\ups-all\ups)
+2019-11-12 09:10:15.708 [Test worker] DEBUG c.b.u.UpsApplicationTests - Running with Spring Boot v2.1.3.RELEASE, Spring v5.1.5.RELEASE
+2019-11-12 09:10:15.711 [Test worker] INFO  c.b.u.UpsApplicationTests - No active profile set, falling back to default profiles: default
+2019-11-12 09:10:20.102 [Test worker] DEBUG c.b.u.c.v.ApiRequestMappingHandlerMapping - 32 mappings in 'requestMappingHandlerMapping'
+2019-11-12 09:10:21.816 [Test worker] INFO  c.b.u.UpsApplicationTests - Started UpsApplicationTests in 6.668 seconds (JVM running for 8.704)

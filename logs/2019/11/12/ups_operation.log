@@ -1,0 +1,10 @@
+2019-11-12 09:39:19.191 [http-nio-8888-exec-1] DEBUG c.b.u.m.s.A.getAccountById - ==>  Preparing: select id, appId, acName, password, isAdmin, isAvailable, optName, optDate from ups_account where id = ? 
+2019-11-12 09:39:19.194 [http-nio-8888-exec-1] DEBUG c.b.u.m.s.A.getAccountById - ==> Parameters: 55f58e2e039346ae8bb4c35435d5be38(String)
+2019-11-12 09:39:19.198 [http-nio-8888-exec-1] DEBUG c.b.u.m.s.A.getAccountById - <==      Total: 1
+2019-11-12 09:39:20.742 [http-nio-8888-exec-3] DEBUG c.b.u.c.v.ApiRequestMappingHandlerMapping - Mapped to public java.util.Map<java.lang.String, java.lang.Object> com.brook.ups.controller.basic.UserController.list(java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-11-12 09:39:20.746 [http-nio-8888-exec-3] DEBUG c.b.u.m.b.U.selectList_COUNT - ==>  Preparing: SELECT count(0) FROM ups_user 
+2019-11-12 09:39:20.747 [http-nio-8888-exec-3] DEBUG c.b.u.m.b.U.selectList_COUNT - ==> Parameters: 
+2019-11-12 09:39:20.748 [http-nio-8888-exec-3] DEBUG c.b.u.m.b.U.selectList_COUNT - <==      Total: 1
+2019-11-12 09:39:20.749 [http-nio-8888-exec-3] DEBUG c.b.u.m.b.U.selectList - ==>  Preparing: SELECT id, appId, userName, password, name, isAvailable, optName, optDate FROM ups_user order by name asc LIMIT ? 
+2019-11-12 09:39:20.750 [http-nio-8888-exec-3] DEBUG c.b.u.m.b.U.selectList - ==> Parameters: 10(Integer)
+2019-11-12 09:39:20.813 [http-nio-8888-exec-3] DEBUG c.b.u.m.b.U.selectList - <==      Total: 10
